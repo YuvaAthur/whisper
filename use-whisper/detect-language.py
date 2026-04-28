@@ -1,13 +1,36 @@
 import whisper
+import torch
+
+from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from operator import itemgetter
 
+import tkinter as tk
+from tkinter import filedialog
+from pathlib import Path 
 
-model = whisper.load_model("tiny") #turbo 
+
+#standard OpenAI models 
+model = whisper.load_model("tiny") #turbo #tiny #"large-v3"
+
+root = tk.Tk()
+root.withdraw()
+
+# Open the file dialog and get the path
+file_path = filedialog.askopenfilename(
+    title="Select a File",
+    initialdir="d:/code",
+    filetypes=(("Audio files", "*.mp3 *.wav"), ("All files", "*.*"))
+)
+print(f"Selected file: {file_path}")
 
 # load audio and pad/trim it to fit 30 seconds
-# audio = whisper.load_audio("ss-audio-may-23.mp3") #sanskrit audio
+# Initialize and hide the main window
+
+
+
+audio = whisper.load_audio(file_path) #sanskrit audio
 # audio = whisper.load_audio("Atharvaveda_Kanda_10_0001.wav") #sanskrit audio
-audio = whisper.load_audio("bg-chap1.mp3") #background audio
+# audio = whisper.load_audio("bg-chap1.mp3") #background audio
 audio = whisper.pad_or_trim(audio)
 
 # make log-Mel spectrogram and move to the same device as the model
